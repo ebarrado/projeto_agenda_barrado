@@ -135,6 +135,75 @@ class _PaginaPrincipalStatus extends State<PaginaPrincipal> {
     );
   }
 
+  //MÉTODO PARA ABRIR O MODAL EDITAR
+  void modalEditar(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Cadastrar Atividades',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context); // Fechar o modal
+                      },
+                      icon: Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20), // Adiciona um espaçamento
+                // Adicione mais conteúdo no modal, se necessário
+                Text("Conteúdo do formulário de atividades"),
+                TextField(
+                  controller: tipo,
+                  decoration: InputDecoration(labelText: 'Tipo de Atividade'),
+                ),
+                TextField(
+                  controller: descricao,
+                  decoration:
+                      InputDecoration(labelText: 'Descrição da Atividade'),
+                ),
+                TextField(
+                  controller: data,
+                  decoration: InputDecoration(labelText: 'Data da Atividade'),
+                ),
+                TextField(
+                  controller: urlimagem,
+                  decoration: InputDecoration(labelText: 'Imagem'),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    _editarAtividade(index, tipo.text, descricao.text,
+                        data.text, urlimagem.text);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Salvar'),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,9 +222,9 @@ class _PaginaPrincipalStatus extends State<PaginaPrincipal> {
           itemCount: _atividades.length,
           itemBuilder: (context, index) {
             return Atividades(
-              _atividades[index]['tipo']!,
-              _atividades[index]['imagem']!,
-            );
+                _atividades[index]['tipo']!,
+                _atividades[index]['imagem']!,
+                () => modalEditar(context, index));
           }),
       //BOTÃO DE ADICIONAR ATIVIDADE
       floatingActionButton: FloatingActionButton(
@@ -174,8 +243,10 @@ class Atividades extends StatelessWidget {
   //atributo = variavel
   final String nome;
   final String imagem_atv;
+  final VoidCallback onEdit;
 
-  const Atividades(this.nome, this.imagem_atv, {Key? key}) : super(key: key);
+  const Atividades(this.nome, this.imagem_atv, this.onEdit, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -205,9 +276,7 @@ class Atividades extends StatelessWidget {
                   ),
                   Text(nome),
                   ElevatedButton(
-                    onPressed: () {
-                      // modalCadastrar(context);
-                    },
+                    onPressed: onEdit,
                     child: Icon(Icons.edit),
                   )
                 ],
