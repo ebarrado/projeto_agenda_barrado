@@ -135,22 +135,16 @@ class _PaginaPrincipalStatus extends State<PaginaPrincipal> {
         ),
         backgroundColor: Colors.amber,
       ),
-      body: ListView(
-        children: [
-          Atividades('Atividade 1',
-              'https://miro.medium.com/v2/resize:fit:640/format:webp/1*ny9J-n57Ev3LhX8e58Okjg.png'),
-          Atividades('Atividade 2',
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuIZbU5T0ncHQY1T2fL0rgzMErgjZ7UK7ELw&s'),
-          Atividades('Atividade 3',
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs2k0imizbrT016rYeZZasMLD46FMBWongg&s'),
-          Atividades('Atividade 4',
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqHNSSU6WTbVYXzjHUGxqYTtyh1fr6TTDKnw&s'),
-          Atividades('Atividade 5',
-              'https://thumbs.dreamstime.com/b/papai-noel-com-bandeiras-de-suor-presente-ca%C3%ADram-no-poste-personagem-presentes-flutter-na-ilustra%C3%A7%C3%A3o-do-vetor-polo-caracteres-157790801.jpg'),
-          Atividades('Atividade 6',
-              'https://miro.medium.com/v2/resize:fit:640/format:webp/1*ny9J-n57Ev3LhX8e58Okjg.png'),
-        ],
-      ),
+      //CORPO DA TELA COM AS ATIVIDADES OU COMPROMISSOS
+      body: ListView.builder(
+          itemCount: _atividades.length,
+          itemBuilder: (context, index) {
+            return Atividades(
+              _atividades[index]['tipo']!,
+              _atividades[index]['imagem']!,
+            );
+          }),
+      //BOTÃO DE ADICIONAR ATIVIDADE
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           modalCadastrar(context);
