@@ -47,6 +47,19 @@ class _PaginaPrincipalStatus extends State<PaginaPrincipal> {
     });
   }
 
+  //MÉTODO EDITAR ATIVIDADE - todo método tem parametros
+  void _editarAtividade(
+      int index, String tipo, String descricao, String data, String imagem) {
+    setState(() {
+      _atividades[index] = {
+        'tipo': tipo,
+        'descricao': descricao,
+        'data': data,
+        'imagem': imagem
+      };
+    });
+  }
+
   //VARIAVEIS DO INPUT DO FORM
   final TextEditingController tipo = TextEditingController();
   final TextEditingController descricao = TextEditingController();
