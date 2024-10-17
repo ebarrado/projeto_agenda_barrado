@@ -68,6 +68,11 @@ class _PaginaPrincipalStatus extends State<PaginaPrincipal> {
 
 //MÉTODO ABRIR MODAL DE CADASTRO
   void modalCadastrar(BuildContext context) {
+    // Limpar os campos antes de abrir o modal
+    tipo.clear();
+    descricao.clear();
+    data.clear();
+    urlimagem.clear();
     showDialog(
       context: context,
       builder: (BuildContext context) {
