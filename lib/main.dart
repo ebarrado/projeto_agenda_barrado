@@ -135,6 +135,39 @@ class _PaginaPrincipalStatus extends State<PaginaPrincipal> {
     );
   }
 
+  //MÉTODO EXCLUIR ATIVIDADE
+  void _excluirAtividade(int index) {
+    setState(() {
+      _atividades.removeAt(index);
+    });
+  }
+
+  //MODAL PARA CONFIRMAR EXCLUSÃO DA ATIVIDADE
+  void _confirmarExclusao(BuildContext contex, int index) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Confirmação'),
+            content: Text('Tem certeza que deseja excluir'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancelar'),
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    _excluirAtividade(index);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Excluir'))
+            ],
+          );
+        });
+  }
+
   //MÉTODO PARA ABRIR O MODAL EDITAR
   void modalEditar(BuildContext context, int index) {
     showDialog(
@@ -224,7 +257,8 @@ class _PaginaPrincipalStatus extends State<PaginaPrincipal> {
             return Atividades(
                 _atividades[index]['tipo']!,
                 _atividades[index]['imagem']!,
-                () => modalEditar(context, index));
+                () => modalEditar(context, index),
+                () => _confirmarExclusao(context, index));
           }),
       //BOTÃO DE ADICIONAR ATIVIDADE
       floatingActionButton: FloatingActionButton(
@@ -244,8 +278,11 @@ class Atividades extends StatelessWidget {
   final String nome;
   final String imagem_atv;
   final VoidCallback onEdit;
+//variavel para delete
+  final VoidCallback onDelete;
 
-  const Atividades(this.nome, this.imagem_atv, this.onEdit, {Key? key})
+  const Atividades(this.nome, this.imagem_atv, this.onEdit, this.onDelete,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -277,8 +314,14 @@ class Atividades extends StatelessWidget {
                   Text(nome),
                   ElevatedButton(
                     onPressed: onEdit,
-                    child: Icon(Icons.edit),
-                  )
+                    child: Icon(Icons.edit, color: Colors.blue),
+                  ),
+                  ElevatedButton(
+                      onPressed: onDelete,
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ))
                 ],
               ),
             )
